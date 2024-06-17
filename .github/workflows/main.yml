@@ -1,0 +1,17 @@
+name: Enforce PR from master to main
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  enforce:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check if base branch is main and head branch is master
+        if: github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref != 'master'
+        run: |
+          echo "Pull requests to main must originate from the master branch."
+          exit 1
